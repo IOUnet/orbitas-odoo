@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_orbitas_backend_company" model="ir.rule">
+        <field name="name">Orbitas backend by company</field>
+        <field name="model_id" ref="model_orbitas_backend"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_user'))]"/>
+    </record>
+    <record id="rule_orbitas_binding_company" model="ir.rule">
+        <field name="name">Orbitas bindings by company</field>
+        <field name="model_id" ref="model_orbitas_obligation_binding"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_user'))]"/>
+    </record>
+    <record id="rule_orbitas_outbox_company" model="ir.rule">
+        <field name="name">Orbitas outbox by company</field>
+        <field name="model_id" ref="model_orbitas_outbox"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_manager'))]"/>
+    </record>
+    <record id="rule_orbitas_proposal_company" model="ir.rule">
+        <field name="name">Orbitas proposals by company</field>
+        <field name="model_id" ref="model_orbitas_clearing_proposal"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_user'))]"/>
+    </record>
+    <record id="rule_orbitas_settlement_company" model="ir.rule">
+        <field name="name">Orbitas settlements by company</field>
+        <field name="model_id" ref="model_orbitas_settlement_instruction"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_user'))]"/>
+    </record>
+    <record id="rule_orbitas_inbound_company" model="ir.rule">
+        <field name="name">Orbitas inbound events by company</field>
+        <field name="model_id" ref="model_orbitas_inbound_event"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('orbitas_connector.group_orbitas_manager'))]"/>
+    </record>
+</odoo>

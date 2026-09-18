@@ -1,0 +1,22 @@
+{
+    "name": "Orbitas Connector",
+    "summary": "Connect Odoo Accounting to the Orbitas cross-ERP clearing network",
+    "version": "19.0.1.0.0",
+    "category": "Accounting/Accounting",
+    "website": "https://github.com/IOUnet/orbitas-odoo",
+    "author": "IOUnet",
+    "license": "LGPL-3",
+    "depends": ["account", "base_setup"],
+    "data": [
+        "security/orbitas_groups.xml",
+        "security/ir.model.access.csv",
+        "security/orbitas_security.xml",
+        "data/orbitas_cron.xml",
+        "views/orbitas_backend_views.xml",
+        "views/orbitas_clearing_views.xml",
+        "views/account_move_views.xml",
+        "views/orbitas_menus.xml",
+    ],
+    "installable": True,
+    "application": False,
+}

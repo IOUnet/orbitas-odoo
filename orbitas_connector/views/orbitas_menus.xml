@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_orbitas_root" name="Orbitas" sequence="60" groups="orbitas_connector.group_orbitas_user"/>
+
+    <menuitem id="menu_orbitas_clearing" name="Clearing" parent="menu_orbitas_root" sequence="10"/>
+    <menuitem id="menu_orbitas_proposals" name="Proposals" parent="menu_orbitas_clearing" action="action_orbitas_clearing_proposals" sequence="10"/>
+    <menuitem id="menu_orbitas_settlements" name="Settlement Instructions" parent="menu_orbitas_clearing" action="action_orbitas_settlements" sequence="20"/>
+
+    <menuitem id="menu_orbitas_operations" name="Operations" parent="menu_orbitas_root" sequence="20" groups="orbitas_connector.group_orbitas_manager"/>
+    <menuitem id="menu_orbitas_bindings" name="Obligation Bindings" parent="menu_orbitas_operations" action="action_orbitas_bindings" sequence="10"/>
+    <menuitem id="menu_orbitas_outbox" name="Outbox" parent="menu_orbitas_operations" action="action_orbitas_outbox" sequence="20"/>
+    <menuitem id="menu_orbitas_inbound" name="Inbound Events" parent="menu_orbitas_operations" action="action_orbitas_inbound_events" sequence="30"/>
+
+    <menuitem id="menu_orbitas_configuration" name="Configuration" parent="menu_orbitas_root" sequence="90" groups="orbitas_connector.group_orbitas_manager"/>
+    <menuitem id="menu_orbitas_backends" name="Backends" parent="menu_orbitas_configuration" action="action_orbitas_backends" sequence="10"/>
+</odoo>

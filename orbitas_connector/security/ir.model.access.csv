@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orbitas_backend_user,orbitas.backend user,model_orbitas_backend,orbitas_connector.group_orbitas_user,1,0,0,0
+access_orbitas_backend_manager,orbitas.backend manager,model_orbitas_backend,orbitas_connector.group_orbitas_manager,1,1,1,1
+access_orbitas_binding_user,orbitas.binding user,model_orbitas_obligation_binding,orbitas_connector.group_orbitas_user,1,0,0,0
+access_orbitas_binding_manager,orbitas.binding manager,model_orbitas_obligation_binding,orbitas_connector.group_orbitas_manager,1,1,1,1
+access_orbitas_outbox_manager,orbitas.outbox manager,model_orbitas_outbox,orbitas_connector.group_orbitas_manager,1,1,1,1
+access_orbitas_proposal_user,orbitas.proposal user,model_orbitas_clearing_proposal,orbitas_connector.group_orbitas_user,1,1,0,0
+access_orbitas_proposal_manager,orbitas.proposal manager,model_orbitas_clearing_proposal,orbitas_connector.group_orbitas_manager,1,1,1,1
+access_orbitas_settlement_user,orbitas.settlement user,model_orbitas_settlement_instruction,orbitas_connector.group_orbitas_user,1,0,0,0
+access_orbitas_settlement_manager,orbitas.settlement manager,model_orbitas_settlement_instruction,orbitas_connector.group_orbitas_manager,1,1,1,1
+access_orbitas_inbound_manager,orbitas.inbound manager,model_orbitas_inbound_event,orbitas_connector.group_orbitas_manager,1,1,1,1

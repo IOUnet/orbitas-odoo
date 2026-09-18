@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_orbitas_user" model="res.groups">
+        <field name="name">Orbitas User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_orbitas_manager" model="res.groups">
+        <field name="name">Orbitas Manager</field>
+        <field name="implied_ids" eval="[(4, ref('orbitas_connector.group_orbitas_user'))]"/>
+    </record>
+</odoo>
