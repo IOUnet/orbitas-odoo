@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_orbitas_process_outbox" model="ir.cron">
+        <field name="name">Orbitas: process outbox</field>
+        <field name="model_id" ref="model_orbitas_outbox"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_process_outbox()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="ir_cron_orbitas_refresh_bound_moves" model="ir.cron">
+        <field name="name">Orbitas: refresh bound invoices</field>
+        <field name="model_id" ref="model_orbitas_obligation_binding"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh_bound_moves()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

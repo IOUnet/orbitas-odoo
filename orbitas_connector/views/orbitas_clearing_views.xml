@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_orbitas_clearing_proposal_list" model="ir.ui.view">
+        <field name="name">orbitas.clearing.proposal.list</field>
+        <field name="model">orbitas.clearing.proposal</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="remote_proposal_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="source_move_id"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="expires_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_orbitas_clearing_proposal_form" model="ir.ui.view">
+        <field name="name">orbitas.clearing.proposal.form</field>
+        <field name="model">orbitas.clearing.proposal</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'candidate'"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-secondary" invisible="state != 'candidate'"/>
+                    <button name="action_open_source_move" type="object" string="Open Invoice/Bill" invisible="not source_move_id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="remote_proposal_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="source_binding_id"/>
+                            <field name="source_move_id"/>
+                            <field name="expires_at"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                            <field name="debtor_participant_id"/>
+                            <field name="intermediary_participant_id"/>
+                            <field name="creditor_participant_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Settlement Instructions">
+                            <field name="settlement_instruction_ids" readonly="1">
+                                <list>
+                                    <field name="remote_instruction_id"/>
+                                    <field name="state"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/>
+                                    <field name="payment_reference"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Raw payload" groups="orbitas_connector.group_orbitas_manager">
+                            <field name="raw_payload_json" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orbitas_clearing_proposals" model="ir.actions.act_window">
+        <field name="name">Clearing Proposals</field>
+        <field name="res_model">orbitas.clearing.proposal</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['candidate', 'approving', 'approved', 'rejecting'])]</field>
+    </record>
+
+    <record id="view_orbitas_settlement_list" model="ir.ui.view">
+        <field name="name">orbitas.settlement.instruction.list</field>
+        <field name="model">orbitas.settlement.instruction</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="remote_instruction_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="proposal_id"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="payment_reference"/>
+                <field name="evidence_reference"/>
+                <field name="accounting_reconciled"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_orbitas_settlement_form" model="ir.ui.view">
+        <field name="name">orbitas.settlement.instruction.form</field>
+        <field name="model">orbitas.settlement.instruction</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <header>
+                    <button name="action_open_source_move" type="object" string="Open Invoice/Bill" invisible="not proposal_id"/>
+                    <button name="action_confirm_accounting_reconciled" type="object" string="Confirm Reconciled" class="btn-primary" groups="orbitas_connector.group_orbitas_manager" invisible="state != 'settled' or accounting_reconciled"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="remote_instruction_id"/>
+                            <field name="proposal_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="payer_participant_id"/>
+                            <field name="receiver_participant_id"/>
+                            <field name="payment_reference"/>
+                            <field name="evidence_reference"/>
+                            <field name="accounting_reconciled" readonly="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert" invisible="state not in ('pending', 'locked', 'settled')">
+                        Orbitas status does not itself mark the Odoo invoice as paid. Reconciliation remains an explicit accounting workflow.
+                    </div>
+                    <notebook>
+                        <page string="Raw payload" groups="orbitas_connector.group_orbitas_manager">
+                            <field name="raw_payload_json" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orbitas_settlements" model="ir.actions.act_window">
+        <field name="name">Settlement Instructions</field>
+        <field name="res_model">orbitas.settlement.instruction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
