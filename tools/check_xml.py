@@ -2,7 +2,6 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 errors = []
 for path in sorted((ROOT / "orbitas_connector").rglob("*.xml")):
