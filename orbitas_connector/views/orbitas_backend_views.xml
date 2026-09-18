@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_orbitas_backend_list" model="ir.ui.view">
+        <field name="name">orbitas.backend.list</field>
+        <field name="model">orbitas.backend</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="base_url"/>
+                <field name="participant_passport_id"/>
+                <field name="auto_export_posted"/>
+                <field name="pending_outbox_count"/>
+                <field name="retry_outbox_count"/>
+                <field name="last_success_at"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_orbitas_backend_form" model="ir.ui.view">
+        <field name="name">orbitas.backend.form</field>
+        <field name="model">orbitas.backend</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_connection" type="object" string="Test Connection" class="btn-secondary" groups="orbitas_connector.group_orbitas_manager"/>
+                    <button name="action_register_participant" type="object" string="Register / Sync Participant" class="btn-primary" groups="orbitas_connector.group_orbitas_manager"/>
+                    <button name="action_process_outbox" type="object" string="Process Outbox" groups="orbitas_connector.group_orbitas_manager"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_outbox" type="object" class="oe_stat_button" icon="fa-exchange" groups="orbitas_connector.group_orbitas_manager">
+                            <field name="pending_outbox_count" widget="statinfo" string="Pending"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" text="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group string="Identity">
+                            <field name="name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="source_instance_id" readonly="1"/>
+                            <field name="participant_passport_id"/>
+                            <field name="auto_export_posted"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Connection">
+                            <field name="base_url"/>
+                            <field name="api_token" password="True" groups="orbitas_connector.group_orbitas_manager"/>
+                            <field name="request_timeout_seconds"/>
+                            <field name="last_success_at" readonly="1"/>
+                            <field name="last_error_at" readonly="1"/>
+                            <field name="last_error_category" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Outbound endpoints">
+                            <group>
+                                <field name="participant_upsert_path"/>
+                                <field name="obligation_upsert_path"/>
+                                <field name="obligation_cancel_path"/>
+                                <field name="obligation_close_path"/>
+                                <field name="clearing_discover_path"/>
+                                <field name="proposal_action_path"/>
+                                <field name="health_path"/>
+                            </group>
+                        </page>
+                        <page string="Webhook">
+                            <group>
+                                <field name="webhook_uuid" readonly="1"/>
+                                <field name="webhook_secret" password="True" groups="orbitas_connector.group_orbitas_manager"/>
+                                <field name="webhook_tolerance_seconds"/>
+                            </group>
+                            <div class="text-muted">
+                                Webhook path: /orbitas/webhook/&lt;webhook_uuid&gt;
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orbitas_backends" model="ir.actions.act_window">
+        <field name="name">Backends</field>
+        <field name="res_model">orbitas.backend</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_orbitas_binding_list" model="ir.ui.view">
+        <field name="name">orbitas.obligation.binding.list</field>
+        <field name="model">orbitas.obligation.binding</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="company_id"/>
+                <field name="source_display_name"/>
+                <field name="remote_obligation_id"/>
+                <field name="sync_state"/>
+                <field name="last_sync_at"/>
+                <field name="last_error" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_orbitas_binding_form" model="ir.ui.view">
+        <field name="name">orbitas.obligation.binding.form</field>
+        <field name="model">orbitas.obligation.binding</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <sheet>
+                    <group>
+                        <field name="backend_id"/>
+                        <field name="company_id"/>
+                        <field name="source_model"/>
+                        <field name="source_record_id"/>
+                        <field name="source_display_name"/>
+                        <field name="remote_obligation_id"/>
+                        <field name="sync_state"/>
+                        <field name="last_sync_at"/>
+                        <field name="last_payload_hash" groups="orbitas_connector.group_orbitas_manager"/>
+                        <field name="last_error"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orbitas_bindings" model="ir.actions.act_window">
+        <field name="name">Obligation Bindings</field>
+        <field name="res_model">orbitas.obligation.binding</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_orbitas_outbox_list" model="ir.ui.view">
+        <field name="name">orbitas.outbox.list</field>
+        <field name="model">orbitas.outbox</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false">
+                <field name="create_date"/>
+                <field name="company_id"/>
+                <field name="event_type"/>
+                <field name="state"/>
+                <field name="attempt_count"/>
+                <field name="next_attempt_at"/>
+                <field name="remote_reference"/>
+                <field name="last_error_category"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_orbitas_outbox_form" model="ir.ui.view">
+        <field name="name">orbitas.outbox.form</field>
+        <field name="model">orbitas.outbox</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="backend_id"/>
+                        <field name="binding_id"/>
+                        <field name="proposal_id"/>
+                        <field name="event_type"/>
+                        <field name="idempotency_key"/>
+                        <field name="state"/>
+                        <field name="attempt_count"/>
+                        <field name="max_attempts"/>
+                        <field name="last_attempt_at"/>
+                        <field name="next_attempt_at"/>
+                        <field name="completed_at"/>
+                        <field name="remote_reference"/>
+                        <field name="response_hash"/>
+                        <field name="last_error_category"/>
+                        <field name="last_error"/>
+                        <field name="payload_json" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_orbitas_outbox" model="ir.actions.act_window">
+        <field name="name">Outbox</field>
+        <field name="res_model">orbitas.outbox</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_orbitas_inbound_list" model="ir.ui.view">
+        <field name="name">orbitas.inbound.event.list</field>
+        <field name="model">orbitas.inbound.event</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false">
+                <field name="create_date"/>
+                <field name="company_id"/>
+                <field name="remote_event_id"/>
+                <field name="event_type"/>
+                <field name="state"/>
+                <field name="processed_at"/>
+                <field name="last_error" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_orbitas_inbound_events" model="ir.actions.act_window">
+        <field name="name">Inbound Events</field>
+        <field name="res_model">orbitas.inbound.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
