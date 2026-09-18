@@ -6,3 +6,8 @@ exclude = ["orbitas_connector/__manifest__.py"]
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]
+"orbitas_connector/models/account_move.py" = ["F401"]
+"orbitas_connector/models/orbitas_outbox.py" = ["F401"]
