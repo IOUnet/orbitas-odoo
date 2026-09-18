@@ -21,6 +21,7 @@ The durable outbox currently emits these logical events:
 - `participant.upsert`
 - `obligation.upsert`
 - `obligation.cancel`
+- `obligation.close`
 - `clearing.discover`
 - `clearing.approve`
 - `clearing.reject`
@@ -79,6 +80,8 @@ Important fields include:
 For a customer invoice, the partner is debtor and the Odoo company is creditor. For a vendor bill, the Odoo company is debtor and the partner is creditor.
 
 A successful response may return either `obligation_id` or `id`.
+
+`obligation.cancel` is used when the source Odoo document itself is cancelled. `obligation.close` is used when the accounting obligation has been fully discharged in Odoo. These are deliberately different states.
 
 ## Inbound webhook
 
