@@ -1,0 +1,10 @@
+interface:
+  display_name: "Orbitas Odoo Development"
+  short_description: "Build and review safe Orbitas/Odoo addons"
+  default_prompt: "Use the Orbitas Odoo development workflow to inspect the repository, implement the requested Odoo change, add or update tests, run the available validation commands, and report exactly what was and was not validated."
+
+policy:
+  products:
+    - CHAT
+    - CODEX
+  allow_implicit_invocation: true
